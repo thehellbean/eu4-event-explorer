@@ -1,0 +1,8 @@
+.idea/
+venv/
+frontend/dist
+yarn.lock
+yarn-error.log
+node_modules
+__pycache__
+*.xml
