@@ -6,6 +6,10 @@ class Parameter:
         self.name = ""
         self.values = []
 
+    def __repr__(self):
+        return "Parameter<"+self.name+","+str(self.values)+">"
+
+
 class Parser:
     def __init__(self):
         self.events = []
@@ -17,12 +21,21 @@ class Parser:
             raise SyntaxError("Expected {0}, got {1}".format(str(should_be), str(next_token.token_type)))
 
     def event_file(self, lexer_object):
-        self.assert_next(lexer_object.get_token(), Token.NAMESPACE)
-        self.assert_next(lexer_object.get_token(), Token.EQUALS)
-        self.assert_next(lexer_object.peek_token(), Token.TEXT)
 
-        # Get namespace name from TEXT token
-        self.namespace = lexer_object.get_token().data
+        if lexer_object.peek_token().token_type == Token.NAMESPACE:
+            self.assert_next(lexer_object.get_token(), Token.NAMESPACE)
+            self.assert_next(lexer_object.get_token(), Token.EQUALS)
+            self.assert_next(lexer_object.peek_token(), Token.TEXT)
+
+            # Get namespace name from TEXT token
+            self.namespace = lexer_object.get_token().data
+
+        if lexer_object.peek_token().token_type == Token.TEXT:
+            if lexer_object.peek_token().data == "normal_or_historical_nations":
+                self.assert_next(lexer_object.get_token(), Token.TEXT)
+                self.assert_next(lexer_object.get_token(), Token.EQUALS)
+                self.assert_next(lexer_object.get_token(), Token.TEXT)
+
 
         self.event_list(lexer_object)
 

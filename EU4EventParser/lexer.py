@@ -16,6 +16,9 @@ class DataToken:
         self.token_type = token_type
         self.data = data
 
+    def __repr__(self):
+        return self.token_type.name + ":" + self.data
+
 
 class Lexer:
     def __init__(self, input_file: str):
@@ -27,11 +30,11 @@ class Lexer:
         self.lex_input()
 
     def lex_input(self):
-        with open(self.input_file) as infile:
+        with open(self.input_file, "r", encoding="latin-1") as infile:
             self.data = infile.read()
 
-        basic_regex = "{|}|-?\d+(\.\d+)?|\
-        namespace|=|#.*\\n?|[A-Za-z\.\d_]+|\"[A-Za-z ]+\""
+        basic_regex = "{|}|-?\d+(\.\d+)?\b|\
+        namespace|=|#.*\\n?|[öÖåÅäÄüÜíÍéÉàÀA-ZòÒa-z'-\.\d_:\w]+|\"['\wòÒöÖåÅäÄüÜíÍéÉàÀA-Za-z-._ ]+\""
 
         match_dict = {
             "{": Token.OPENBRACE,
