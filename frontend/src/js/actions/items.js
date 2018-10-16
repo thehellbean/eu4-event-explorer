@@ -14,6 +14,7 @@ export function eventsIsLoading(bool) {
 	}
 }
 
+
 export function eventsFetchDataSuccess(events) {
 	return {
 		type: EVENTS_FETCH_DATA_SUCCESS,
@@ -23,15 +24,18 @@ export function eventsFetchDataSuccess(events) {
 
 export function eventsFetchData(url, parameters) {
 	return (dispatch) => {
-		dispatch(itemIsLoading(true));
+		dispatch(eventsIsLoading(true));
 
-		fetch(url)
+		let json_string = "?search="+JSON.stringify(parameters);
+		let url_object = new URL(url+json_string);
+
+		fetch(url_object)
 			.then((response) => {
 				if (!response.ok) {
 					throw Error(response.statusText);
 				}
 
-				dispatch(itemIsLoading(false));
+				dispatch(eventsIsLoading(false));
 
 				return response;
 			})

@@ -38,6 +38,18 @@ module.exports = {
     compress: true,
     port: 8080,
     hot: true,
-    contentBase: './dist'
+    contentBase: './dist',
+    proxy: {
+      '/api': {
+         target: {
+            host: "0.0.0.0",
+            protocol: 'http:',
+            port: 5000
+         },
+         pathRewrite: {
+            '^/api': ''
+         }
+      }
+    }
    }
 };

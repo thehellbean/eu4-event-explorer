@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { eventsFetchData } from '../actions/items';
+import Event from './Event.jsx'
 
 const mapStateToProps = (state) => {
 	return {
@@ -29,9 +30,7 @@ class EventList extends Component {
 		return (
 			<ul>
 				{this.props.events.map((item) => (
-					<li key={item.id}>
-						{item.label}
-					</li>
+						<Event key={item.id} event={item}/>				
 					))
 				}
 			</ul>
