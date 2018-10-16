@@ -1,0 +1,1 @@
+TEST_EVENTS_ROOT = "/home/andreas/Documents/EU4EventExplorer/backend/tests/test_events"

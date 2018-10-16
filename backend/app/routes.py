@@ -1,4 +1,7 @@
-from app import app, db_list, event_search
+from app import app, event_search
+from flask import request
+from flask import json
+
 
 @app.route("/")
 @app.route("/index")
@@ -6,7 +9,17 @@ def index():
     return "Hello, world!"
 
 
-@app.route("/search")
+@app.route("/search", methods=["GET"])
 def search():
-    root = db_list[0].xpath("//parameter[@name='country_event']")[0]
-    return event_search.convert_root_to_json(root)
+    try:
+        search_params = json.loads(request.args.get("search"))
+    except TypeError:
+        return "Invalid search parameters", 400
+
+    search_query = event_search.convert_search_terms_to_xquery(search_params)
+    print(search_query)
+    events = event_search.search_by_xquery(search_query)
+    parsed_events = [event_search.convert_root_to_dict(root) for root in events]
+    if len(parsed_events) > 100:
+        return json.jsonify(parsed_events[:100])
+    return json.jsonify(parsed_events)
