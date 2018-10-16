@@ -6,3 +6,6 @@ yarn-error.log
 node_modules
 __pycache__
 *.xml
+EU4EventParser/events
+EU4EventParser/localisation
+*.index
